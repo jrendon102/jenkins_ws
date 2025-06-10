@@ -1,6 +1,5 @@
 pipeline {
     agent any
-
     stages {
         stage('Greet') {
             steps {
@@ -14,14 +13,16 @@ pipeline {
         }
         stage('Clone Mach2 repo') {
             steps {
-                checkout([
-                    $class: 'GitSCM',
-                    branches: [[name: '*/dev']],
-                    userRemoteConfigs: [[
-                        url: 'git@github.com:jrendon102/mach2.git',
-                        credentialsId: 'autobuild-ssh-keys'
-                    ]]
-                ])
+                dir('mach2') { // optional: clone into subdir to avoid clutter
+                    checkout([
+                        $class: 'GitSCM',
+                        branches: [[name: 'dev']],
+                        userRemoteConfigs: [[
+                            url: 'git@github.com:jrendon102/mach2.git',
+                            credentialsId: 'autobuild-ssh-keys'
+                        ]]
+                    ])
+                }
             }
         }
     }
