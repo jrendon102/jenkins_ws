@@ -12,14 +12,16 @@ pipeline {
                 bat 'python scripts\\hello_world.py'
             }
         }
-        stage('Colone Mach2 repo') {
+        stage('Clone Mach2 repo') {
             steps {
-                $class: 'GitSCM',
-                branches: [[name: 'dev']],
-                userRemoteConfigs: [[
-                    url: 'git@github.com:jrendon102/mach2.git',
-                    credentialsID: 'autobuild-ssh-keys'
-                ]]
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/dev']],
+                    userRemoteConfigs: [[
+                        url: 'git@github.com:jrendon102/mach2.git',
+                        credentialsId: 'autobuild-ssh-keys'
+                    ]]
+                ])
             }
         }
     }
