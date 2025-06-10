@@ -7,5 +7,10 @@ pipeline {
                 echo 'Hello, Jenkins!'
             }
         }
+        stage('Run Python Script') {
+            steps {
+                sh 'python3 scripts/hello_world.py'
+            }
+        }
     }
 }
